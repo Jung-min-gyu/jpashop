@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class OrderSimpleQueryDto {
+
     private Long orderId;
     private String name;
     private LocalDateTime orderDate;

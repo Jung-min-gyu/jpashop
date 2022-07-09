@@ -34,7 +34,7 @@ public class OrderSimpleApiController {
         List<Order> all = orderRepository.findAllByString(new OrderSearch());
         for (Order order : all) {
             order.getMember().getName(); //LAZY가 강제 초기화됨
-            order.getDelivery().getAddress();
+            order.getDelivery().getAddress(); //LAZY가 강제 초기화됨
         }
         return all;
     }
@@ -44,7 +44,7 @@ public class OrderSimpleApiController {
         List<Order> orders = orderRepository.findAllByString(new OrderSearch());
 
         List<SimpleOrderDto> result = orders.stream()
-                .map(o -> new SimpleOrderDto(o))
+                .map(o -> new SimpleOrderDto(o)) //map(a -> b) : a를 b로 바꾸어 주는 것
                 .collect(Collectors.toList());
 
         return result;
@@ -79,7 +79,6 @@ public class OrderSimpleApiController {
             orderDate = order.getOrderDate();
             orderStatus = order.getStatus();
             address = order.getDelivery().getAddress();
-
         }
     }
 
