@@ -25,7 +25,7 @@ public class OrderApiController {
     private final OrderRepository orderRepository;
 
     @GetMapping("/api/v1/orders")
-    public List<Order> ordersV1() {
+    public List<Order> ordersV1() {  //엔티티를 직접 노출하면 안됨.
         List<Order> all = orderRepository.findAllByString((new OrderSearch()));
         for (Order order : all) {
             order.getMember().getName();
@@ -45,7 +45,7 @@ public class OrderApiController {
         return result;
     }
 
-    @GetMapping("/api/v3/orders")
+    @GetMapping("/api/v3/orders")  //일대다를 패치 조인 하는 순간 페이징 쿼리는 불가능해진다.
     public List<OrderDto> ordersV3() {
         List<Order> orders = orderRepository.findAllWithItem();
         List<OrderDto> result = orders.stream()
@@ -63,7 +63,7 @@ public class OrderApiController {
         private LocalDateTime orderDate;
         private OrderStatus orderStatus;
         private Address address;
-        private List<OrderItemDto> orderItems;
+        private List<OrderItemDto> orderItems;  //Dto 안에 엔티티가 있으면 안된다.
 
         public OrderDto(Order order) {
             orderId = order.getId();
@@ -77,6 +77,7 @@ public class OrderApiController {
         }
     }
 
+    @Getter
     static class OrderItemDto {
 
         private String itemName; //상품명
